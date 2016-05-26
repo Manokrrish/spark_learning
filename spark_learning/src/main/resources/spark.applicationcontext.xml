@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:con="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans.xsd 
+ http://www.springframework.org/schema/context 
+ http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<con:component-scan base-package="com.knowledgekart.spark_learning" />
+
+	<bean name="sparkProps"
+		class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+		<property name="location" value="classpath:spark_core.properties"></property>
+	</bean>
+	<bean name="appCtxt"
+		class="com.knowledgekart.spark_learning.context.ContextProvider">
+		<constructor-arg ref="sparkConf" />
+		<constructor-arg value="${spark.submit.jar}"></constructor-arg>
+	</bean>
+
+	<bean name="sparkConf" class="org.apache.spark.SparkConf">
+		<property name="appName" value="${spark.app.name}"></property>
+		<property name="master" value="${spark.master}"></property>
+	</bean>
+	<!-- <bean name="appCtxt" class="org.apache.spark.api.java.JavaSparkContext"> 
+		<constructor-arg ref="sparkConf"/> </bean> -->
+
+</beans>
